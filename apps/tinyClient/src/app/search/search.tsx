@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
 export type SearchProps = {
   onSearch: (q: string) => void;
@@ -7,6 +7,7 @@ export type SearchProps = {
   initialQuery?: string;
   suggestions?: string[];
   onType?: (q: string) => void;
+  children?: any;
 };
 export function Search({
   placeholder,
@@ -14,10 +15,11 @@ export function Search({
   initialQuery,
   suggestions,
   onType,
+  children,
 }: SearchProps) {
   const [query, setQuery] = useState(initialQuery ?? '');
 
-  const max = 15
+  const max = 15;
   const { highlighted, onKey, setHighlighted } = useHighlight(
     0,
     suggestions,
@@ -51,6 +53,7 @@ export function Search({
         />
         <button className="btn btn-primary">Search</button>
       </form>
+      {children}
       {suggestions && suggestions.length > 0 && (
         <div className="dropdown dropdown-open">
           <ul className="overflow-auto dropdown-content bg-base-100 opacity-85 rounded-box z-[1] w-52 max-w-80 p-2 shadow">
@@ -77,7 +80,7 @@ function useHighlight(
   initial: number = 0,
   suggestions: string[] = [],
   onSelected?: (s: string) => void,
-  maxShow?: number,
+  maxShow?: number
 ) {
   const [highlighted, setHighlighted] = useState(initial);
 
@@ -104,6 +107,8 @@ function useHighlight(
       case 'Enter': {
         typeof onSelected === 'function' &&
           onSelected(suggestions[highlighted]);
+      }
+      case 'Esc': {
       }
     }
   };

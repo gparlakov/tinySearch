@@ -10,8 +10,6 @@ export type ResultsProps = {
 export function Results({ results }: ResultsProps) {
   const { favorites, setFavorite } = useFavorite();
 
-  console.log('-----',favorites)
-
   return results.map((r) => (
     <div>
       <a href={r.url} className="link">

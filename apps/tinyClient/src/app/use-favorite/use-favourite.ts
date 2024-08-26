@@ -6,7 +6,6 @@ export function useFavorite() {
   // initialize from local storage
   const favs = localStorage.getItem(favoritesKey);
   const ids = typeof favs === 'string' ? favs.split('/,/') : [];
-  console.log('----ids', ids)
 
   const [favorites, setFav] = useState(ids);
 
