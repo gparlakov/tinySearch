@@ -26,7 +26,7 @@ export function useSearchAutocomplete(
   const autocomplete = (q: string) => {
     return fetch(autocompleteUrl, {
       method: 'POST',
-      body: JSON.stringify({ q: q }),
+      body: JSON.stringify({ q: q, page: 100 }),
       headers: { 'Content-Type': 'application/json' },
     }).then((r) => r.json());
   };

@@ -10,7 +10,8 @@ const tokens = [
       // split on whitespace to get the words/tokens
       .flatMap((c) => c.cityLabel.split('/s/'))
   ),
-];
+  // order tokens alphabetically
+].sort((a, b) => a.localeCompare(b));
 
 export function search({ q }: { q?: string } = { q: '' }) {
   const qNormal = typeof q === 'string' ? q.toLocaleLowerCase() : '';
@@ -23,14 +24,9 @@ export function search({ q }: { q?: string } = { q: '' }) {
   return result;
 }
 
-export function autocomplete(
-  { q, page }: { q?: string; page?: string } = { q: '' }
-) {
+export function autocomplete({ q }: { q?: string } = { q: '' }) {
   const qNormal = typeof q === 'string' ? q.toLocaleLowerCase() : '';
-  console.log(qNormal)
-  const pageActual = isNaN(parseInt(page)) ? 10 : parseInt(page);
+  console.log(qNormal);
 
-  return tokens
-    .filter((t) => t.toLocaleLowerCase().startsWith(qNormal))
-    .slice(0, pageActual);
+  return tokens.filter((t) => t.toLocaleLowerCase().startsWith(qNormal));
 }
