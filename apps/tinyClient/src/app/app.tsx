@@ -10,7 +10,9 @@ import SearchHistory from './search-history/search-history';
 export function App() {
   // configure via /config.json
 
-  const { query, autocomplete } = useSearchAutocomplete(
+  const [query, setQuery] = useState('');
+
+  const { query: doQuery, autocomplete } = useSearchAutocomplete(
     'http://localhost:3333/q',
     'http://localhost:3333/autocomplete'
   );
@@ -21,7 +23,7 @@ export function App() {
   const { clearHistory, queries, storeQuery } = useSearchHistory();
 
   async function onSearch(q: string) {
-    const results = await query(q);
+    const results = await doQuery(q);
 
     setResults(results);
     setSuggestions([]);
@@ -36,11 +38,16 @@ export function App() {
           setSuggestions(suggestions);
         }}
         suggestions={suggestions}
+        query={query}
+        setQuery={setQuery}
       >
         <SearchHistory
           queries={queries}
           clearHistory={clearHistory}
-          redoSearch={onSearch}
+          redoSearch={(q) => {
+            setQuery(q);
+            onSearch(q)
+          }}
           className="absolute right-0 top-0"
         />
       </Search>

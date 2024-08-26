@@ -17,8 +17,8 @@ export function SearchHistory({
       <summary className="btn m-1">Search History</summary>
       <ul className="dropdown-content bg-base-100 rounded-box z-[1] w-64 p-2 shadow  right-0">
         {queries.map((q) => (
-          <li>
-            <a>{q.q}</a> Results: {q.count}{' '}
+          <li key={q.q}>
+            <a>{q.q}</a>({q.count})
             <button className="btn" onClick={() => redoSearch(q.q)}>
               redo
             </button>

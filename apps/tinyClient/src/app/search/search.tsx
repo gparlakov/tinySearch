@@ -2,9 +2,10 @@ import { useState } from 'react';
 
 export type SearchProps = {
   onSearch: (q: string) => void;
+  setQuery: (q: string) => void;
+  query: string;
 
   placeholder?: string;
-  initialQuery?: string;
   suggestions?: string[];
   onType?: (q: string) => void;
   children?: any;
@@ -12,13 +13,12 @@ export type SearchProps = {
 export function Search({
   placeholder,
   onSearch,
-  initialQuery,
+  query,
+  setQuery,
   suggestions,
   onType,
   children,
 }: SearchProps) {
-  const [query, setQuery] = useState(initialQuery ?? '');
-
   const max = 15;
   const { highlighted, onKey, setHighlighted } = useHighlight(
     0,
@@ -31,6 +31,7 @@ export function Search({
   );
 
   const onTypeCb = typeof onType === 'function' ? onType : () => {};
+
   return (
     <>
       <form
@@ -49,6 +50,7 @@ export function Search({
             setHighlighted(0);
           }}
           onKeyDown={(e) => onKey(e.key)}
+          type="text"
           value={query}
         />
         <button className="btn btn-primary">Search</button>
