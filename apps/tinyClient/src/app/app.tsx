@@ -6,9 +6,15 @@ import useSearchAutocomplete, {
 } from './use-search-autocomplete/use-search-autocomplete';
 
 export function App() {
-  const { query } = useSearchAutocomplete();
+  // configure via /config.json 
+
+  const { query, autocomplete } = useSearchAutocomplete(
+    'http://localhost:3333/q',
+    'http://localhost:3333/autocomplete'
+  );
 
   const [results, setResults] = useState<City[]>([]);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
 
   return (
     <div>
@@ -17,8 +23,13 @@ export function App() {
           const results = await query(q);
 
           setResults(results);
+          setSuggestions([]);
         }}
-        onType={(q) => console.log('---typing', q)}
+        onType={async (q) => {
+          const suggestions = await autocomplete(q)
+          setSuggestions(suggestions);
+        }}
+        suggestions={suggestions}
       />
       <Results results={results} />
     </div>

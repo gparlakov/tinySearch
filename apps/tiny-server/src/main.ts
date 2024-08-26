@@ -5,18 +5,24 @@
 
 import cors from 'cors';
 import express from 'express';
-import { cities } from './cities';
+import { autocomplete, search } from './search-autocomplete';
 
 const app = express();
 
 app.use(express.json());
 
-app.options('/q', cors()); // enable pre-flight request for DELETE request
+// query
+app.options('/q', cors()); // enable pre-flight request for POST request
 app.post('/q', cors(), (req, res) => {
-  const q = req.body?.q;
-  const qNormal = typeof q === 'string' ? q.toLocaleLowerCase() : '';
-  
-  const result = cities.filter((c) => typeof c.cityLabel === 'string' && c.cityLabel.toLocaleLowerCase().includes(qNormal))
+  const result = search(req.body);
+
+  res.json(result);
+});
+
+// autocomplete
+app.options('/autocomplete', cors()); // enable pre-flight request for POST request
+app.post('/autocomplete', cors(), (req, res) => {
+  const result = autocomplete(req.body);
 
   res.json(result);
 });
@@ -24,7 +30,7 @@ app.post('/q', cors(), (req, res) => {
 app.get('/', (req, res) => {
   res.send({
     message:
-      'Welcome to tinyServer! See use /q for search or /autocomplete for autocomplete',
+      'Welcome to tinyServer! Use /q for search or /autocomplete for autocomplete',
   });
 });
 
