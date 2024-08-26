@@ -26,7 +26,6 @@ export function search({ q }: { q?: string } = { q: '' }) {
 
 export function autocomplete({ q }: { q?: string } = { q: '' }) {
   const qNormal = typeof q === 'string' ? q.toLocaleLowerCase() : '';
-  console.log(qNormal);
 
   return tokens.filter((t) => t.toLocaleLowerCase().startsWith(qNormal));
 }
