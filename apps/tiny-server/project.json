@@ -1,0 +1,26 @@
+{
+  "name": "tinyServer",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/tiny-server/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "tinyServer:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "tinyServer:build:development"
+        },
+        "production": {
+          "buildTarget": "tinyServer:build:production"
+        }
+      }
+    }
+  }
+}
